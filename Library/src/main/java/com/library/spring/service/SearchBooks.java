@@ -6,6 +6,6 @@ import com.library.spring.model.Book;
 
 public interface SearchBooks {
 	
-	public List<Book> search(String key);
+	public List<Book> search(String status, String key);
 
 }

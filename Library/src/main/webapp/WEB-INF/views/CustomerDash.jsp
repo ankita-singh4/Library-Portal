@@ -17,14 +17,14 @@
 	Add a Book
 </h1>
 
-<c:url var="addAction" value="/books" ></c:url>
+<c:url var="addAction" value="/book/search" ></c:url>
 
 <form:form action="${addAction}" commandName="book">
 <table>
 	<tr>
 		<td colspan="2">
 				<input type="submit"
-					value="<spring:message text="New Search"/>" />
+					value="<spring:message text="Search"/>" />
 		</td>
 	</tr>
 </table>	

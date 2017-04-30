@@ -58,7 +58,7 @@
 	<beans:bean id="bookService" class="com.library.spring.service.BookServiceImpl">
 		<beans:property name="bookDAO" ref="bookDAO"></beans:property>
 	</beans:bean>
-	<beans:bean id="searchBooks" class="com.library.spring.service.SearchByTitle">
+	<beans:bean id="searchBooks" class="com.library.spring.service.SearchBooksImpl">
 		<beans:property name="bookDAO" ref="bookDAO"></beans:property>
 	</beans:bean>
 	<context:component-scan base-package="com.library.spring" />

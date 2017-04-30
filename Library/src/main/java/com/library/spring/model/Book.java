@@ -18,21 +18,21 @@ public class Book {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="Title")
-	private String title;
+	@Column(name="bookName")
+	private String bookName;
 	
-	@Column(name="Author")
-	private String author;
+	@Column(name="bookAuthor")
+	private String bookAuthor;
 	
-	@Column(name="Status")
+	@Column(name="bookStatus")
 	@Enumerated(EnumType.STRING)
-	private Status status;
+	private Status bookStatus;
 	
-	@Column(name="genre")
-	private String genre;
+	@Column(name="bookGenre")
+	private String bookGenre;
 	
-	@Column(name="ISBN")
-	private String ISBN;
+	@Column(name="bookISBN")
+	private String bookISBN;
 
 	public int getId() {
 		return id;
@@ -42,50 +42,50 @@ public class Book {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getBookName() {
+		return bookName;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setBookTitle(String bookName) {
+		this.bookName = bookName;
 	}
 
-	public String getAuthor() {
-		return author;
+	public String getBookAuthor() {
+		return bookAuthor;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setBookAuthor(String bookAuthor) {
+		this.bookAuthor = bookAuthor;
 	}
 	
 	@Enumerated(EnumType.STRING)
-    public Status getStatus() {
-        return status;
+    public Status getBookStatus() {
+        return bookStatus;
     }
 	
 	@Enumerated(EnumType.STRING)
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setBookStatus(Status Status) {
+        this.bookStatus = Status;
     }
 	
-	public String getGenre() {
-		return genre;
+	public String getBookGenre() {
+		return bookGenre;
 	}
 
-	public void setGenre(String genre) {
-		this.genre = genre;
+	public void setBookGenre(String bookGenre) {
+		this.bookGenre = bookGenre;
 	}
 	
-	public String getISBN() {
-		return ISBN;
+	public String getBookISBN() {
+		return bookISBN;
 	}
 
-	public void setISBN(String ISBN) {
-		this.ISBN = ISBN;
+	public void setBookISBN(String bookISBN) {
+		this.bookISBN = bookISBN;
 	}
 	
 	@Override
 	public String toString(){
-		return "id="+id+", title="+title+", author="+author+", genre="+genre+", status="+status+", ISBN="+ISBN;
+		return "id="+id+", title="+bookName+", author="+bookAuthor+", genre="+bookGenre+", status="+bookStatus+", ISBN="+bookISBN;
 	}
 }

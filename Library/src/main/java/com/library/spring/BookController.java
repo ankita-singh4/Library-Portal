@@ -35,17 +35,24 @@ public class BookController {
 		this.searchBooks = sb;
 	}
 	
+	@RequestMapping(value = "/books")
+	public String custDash(Model model) {
+		model.addAttribute("listBooks", this.bookService.listBooks());
+		//model.addAttribute("listBooks");
+		return "CustomerDash";
+	}
+	
 	@RequestMapping(value = "/book/search/results")
 	public String searchBooks(@ModelAttribute("search") Search search, Model model) {
 		model.addAttribute("book", new Book());
 		
-		model.addAttribute("listBooks", this.searchBooks.search(search.getKey()));
+		model.addAttribute("listBooks", this.searchBooks.search(search.getType(), search.getKey()));
 		model.addAttribute("search", search);
 		//model.addAttribute("listBooks");
 		return "book";
 	}
 	
-	@RequestMapping(value = "/books")
+	@RequestMapping(value = "/book/search")
 	public String listBooks(Model model) {
 		model.addAttribute("search", new Search());
 		//model.addAttribute("listBooks");
@@ -91,7 +98,7 @@ public class BookController {
 	@RequestMapping("/borrow/{id}")
     public String borrowBook(@PathVariable("id") int id, Model model, @ModelAttribute("search") Search search){
 		Book b = this.bookService.getBookById(id);
-		b.setStatus(Status.Borrowed);
+		b.setBookStatus(Status.Borrowed);
 		this.bookService.updateBook(b);
 		model.addAttribute("book", b);
 		model.addAttribute("search", search);
@@ -102,7 +109,7 @@ public class BookController {
 	@RequestMapping("/return/{id}")
     public String returnBook(@PathVariable("id") int id, Model model, HttpServletRequest request){
 		Book b = this.bookService.getBookById(id);
-		b.setStatus(Status.Available);
+		b.setBookStatus(Status.Available);
 		this.bookService.updateBook(b);
 		model.addAttribute("book", b);
 		//return "redirect:/books";

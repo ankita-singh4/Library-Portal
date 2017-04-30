@@ -9,7 +9,7 @@ import com.library.spring.dao.BookDAO;
 import com.library.spring.model.Book;
 
 @Service
-public class SearchByTitle implements SearchBooks {
+public class SearchBooksImpl implements SearchBooks {
 
 	private BookDAO bookDAO;
 	
@@ -19,8 +19,8 @@ public class SearchByTitle implements SearchBooks {
 
 	@Override
 	@Transactional
-	public List<Book> search(String key) {
-		return this.bookDAO.search("title",key);
+	public List<Book> search(String type, String key) {
+		return this.bookDAO.search(type,key);
 	}
 
 }
