@@ -41,12 +41,15 @@
 		<beans:property name="annotatedClasses">
 			<beans:list>
 				<beans:value>com.library.spring.model.Book</beans:value>
+				<beans:value>com.library.spring.model.Users</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
 			<beans:props>
 				<beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect
 				</beans:prop>
+				<beans:prop key="hibernate.hbm2ddl.auto">update
+                </beans:prop>
 				<beans:prop key="hibernate.show_sql">true</beans:prop>
 			</beans:props>
 		</beans:property>
@@ -55,12 +58,39 @@
 	<beans:bean id="bookDAO" class="com.library.spring.dao.BookDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
 	</beans:bean>
+	
 	<beans:bean id="bookService" class="com.library.spring.service.BookServiceImpl">
 		<beans:property name="bookDAO" ref="bookDAO"></beans:property>
 	</beans:bean>
-	<beans:bean id="searchBooks" class="com.library.spring.service.SearchBooksImpl">
-		<beans:property name="bookDAO" ref="bookDAO"></beans:property>
+	
+	<beans:bean id="libraryDAO" class="com.library.spring.dao.LibraryDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+    </beans:bean>
+    
+    <beans:bean id="libraryService" class="com.library.spring.service.LibraryServiceImpl">
+		<beans:property name="libraryDAO" ref="libraryDAO"></beans:property>
 	</beans:bean>
+	
+	<beans:bean id="searchBooks" class="com.library.spring.service.SearchBooksImpl">
+		<beans:property name="libraryDAO" ref="libraryDAO"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="loginDAO" class="com.library.spring.dao.LoginDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+    </beans:bean>
+    
+    <beans:bean id="loginService" class="com.library.spring.service.LoginServiceImpl">
+        <beans:property name="loginDAO" ref="loginDAO"></beans:property>
+    </beans:bean>
+    
+    <beans:bean id="signupDAO" class="com.library.spring.dao.SignupDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+    </beans:bean>
+    
+    <beans:bean id="signupService" class="com.library.spring.service.SignupServiceImpl">
+        <beans:property name="signupDAO" ref="signupDAO"></beans:property>
+    </beans:bean>
+	
 	<context:component-scan base-package="com.library.spring" />
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>

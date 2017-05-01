@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import com.library.spring.model.Status;
+
 @Entity
 @Table(name="BOOK")
 public class Book {
@@ -18,9 +21,11 @@ public class Book {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@NotEmpty
 	@Column(name="bookName")
 	private String bookName;
 	
+	@NotEmpty
 	@Column(name="bookAuthor")
 	private String bookAuthor;
 	
@@ -46,7 +51,7 @@ public class Book {
 		return bookName;
 	}
 
-	public void setBookTitle(String bookName) {
+	public void setBookName(String bookName) {
 		this.bookName = bookName;
 	}
 
@@ -64,8 +69,8 @@ public class Book {
     }
 	
 	@Enumerated(EnumType.STRING)
-    public void setBookStatus(Status Status) {
-        this.bookStatus = Status;
+    public void setBookStatus(Status status) {
+        this.bookStatus = status;
     }
 	
 	public String getBookGenre() {

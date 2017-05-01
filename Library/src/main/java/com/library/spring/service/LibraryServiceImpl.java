@@ -9,18 +9,30 @@ import com.library.spring.dao.LibraryDAO;
 import com.library.spring.model.Book;
 
 @Service
-public class SearchBooksImpl implements SearchBooks {
-
-	private LibraryDAO libraryDAO;
+public class LibraryServiceImpl implements LibraryService {
 	
+	private LibraryDAO libraryDAO;
+
 	public void setLibraryDAO(LibraryDAO libraryDAO) {
 		this.libraryDAO = libraryDAO;
 	}
 
 	@Override
 	@Transactional
-	public List<Book> search(String type, String key) {
-		return this.libraryDAO.search(type,key);
+	public void updateBook(Book p) {
+		this.libraryDAO.updateBook(p);
+	}
+
+	@Override
+	@Transactional
+	public List<Book> listBooks() {
+		return this.libraryDAO.listBooks();
+	}
+
+	@Override
+	@Transactional
+	public Book getBookById(int id) {
+		return this.libraryDAO.getBookById(id);
 	}
 
 }

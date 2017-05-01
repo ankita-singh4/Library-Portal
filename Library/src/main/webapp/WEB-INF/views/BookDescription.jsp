@@ -21,12 +21,12 @@
 
 <br>
 <h3>Book Description</h3>
-<h4>${book.title}</h4>
-<h5>By ${book.author}</h5>
+<h4>${book.bookName}</h4>
+<h5>By ${book.bookAuthor}</h5>
 <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 <br>
 <c:choose>
-<c:when test="${book.status eq 'Available'}">
+<c:when test="${book.bookStatus eq 'Available'}">
 	<a href="<c:url value='/borrow/${book.id}' />" >Borrow</a>
 </c:when>
 <c:otherwise>
