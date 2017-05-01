@@ -82,7 +82,6 @@ private BookService bookService;
 			if(b.getId() == 0){
 				System.out.println(b.getBookName());
 			//new person, add it
-				b.setBookStatus(Status.Available);
 			this.bookService.addBook(b);
 			}
 		
