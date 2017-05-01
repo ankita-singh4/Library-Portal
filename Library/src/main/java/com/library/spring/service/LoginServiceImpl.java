@@ -21,7 +21,7 @@ public class LoginServiceImpl implements LoginService {
 	   
 	   @Override
 	   @Transactional
-       public boolean checkLogin(String userName, String userPassword){
+       public Users checkLogin(String userName, String userPassword){
               System.out.println("In Service class...Check Login");
               return loginDAO.checkLogin(userName, userPassword);
        }
