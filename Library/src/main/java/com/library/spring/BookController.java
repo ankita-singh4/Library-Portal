@@ -1,120 +1,183 @@
 package com.library.spring;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
+
 import com.library.spring.model.Book;
-import com.library.spring.model.Search;
 import com.library.spring.model.Status;
+import com.library.spring.model.Users;
 import com.library.spring.service.BookService;
-import com.library.spring.service.SearchBooks;
+
 
 @Controller
 public class BookController {
 	
-	private BookService bookService;
-	private SearchBooks searchBooks;
+private BookService bookService;
 	
 	@Autowired(required=true)
 	@Qualifier(value="bookService")
-	public void setBookService(BookService bs){
+	public void setPersonService(BookService bs){
 		this.bookService = bs;
 	}
 	
-	@Autowired(required=true)
-	@Qualifier(value="searchBooks")
-	public void setSearchBooks(SearchBooks sb){
-		this.searchBooks = sb;
-	}
-	
-	@RequestMapping(value = "/books")
-	public String custDash(Model model) {
-		model.addAttribute("listBooks", this.bookService.listBooks());
-		//model.addAttribute("listBooks");
-		return "CustomerDash";
-	}
-	
-	@RequestMapping(value = "/book/search/results")
-	public String searchBooks(@ModelAttribute("search") Search search, Model model) {
+	@RequestMapping(value = "/addbook", method = RequestMethod.GET)
+	public String listPersons(Model model) {
 		model.addAttribute("book", new Book());
 		
-		model.addAttribute("listBooks", this.searchBooks.search(search.getType(), search.getKey()));
-		model.addAttribute("search", search);
-		//model.addAttribute("listBooks");
-		return "book";
+		return "addbook";
 	}
 	
-	@RequestMapping(value = "/book/search")
-	public String listBooks(Model model) {
-		model.addAttribute("search", new Search());
-		//model.addAttribute("listBooks");
-		return "bookSearch";
-	}
-	
-	/*//For add and update book both
-	@RequestMapping(value= "/book/add", method = RequestMethod.POST)
-	public String addBook(@ModelAttribute("book") Book b){
+	/*
+	@RequestMapping(value = "/removebook", method = RequestMethod.GET)
+	public String listPersonsr(Model model) {
+		model.addAttribute("rmbook", new Book());
 		
-		if(b.getId() == 0){
-			//new book, add it
-			this.bookService.addBook(b);
-		}else{
-			//existing book, call update
-			this.bookService.updateBook(b);
+		return "removebook";
+	}
+	*/
+	@RequestMapping(value = "/removebook", method = RequestMethod.GET)
+	public String showForm(Map model) {
+		Book rmbook = new Book();
+		model.put("rmbook", rmbook);
+		return "removebook";
+	}
+	
+	/*
+	
+	public String addPerson(@ModelAttribute("person") @Valid Person p,BindingResult result, Model model){
+		
+		
+		if (result.hasErrors())
+		{
+			System.out.println("Validation Error");
+			return "person";
+		}
+	*/
+	
+	
+	int booknumber=0;
+	//For add and update person both
+	@RequestMapping(value= "/addbook/add", method = RequestMethod.POST)
+	public String addBook(@ModelAttribute("book") @Valid Book b,BindingResult result, Model model){
+	//public String addBook(@ModelAttribute("book") Book b,BindingResult result, Model model){
+		if (result.hasErrors())
+		{
+			System.out.println("Form Validation Failed");
+			return "redirect:/addbook";
 		}
 		
-		return "redirect:/books";
+		else{
+			
+			if(b.getId() == 0){
+				System.out.println(b.getBookName());
+			//new person, add it
+				b.setBookStatus(Status.Available);
+			this.bookService.addBook(b);
+			}
+		
+		else{
+			//existing person, call update
+			//this.personService.updatePerson(p);
+			System.out.println("Inside Else");
+			}
+		
+		return "redirect:/staffhome";
+		}
+	}
+	
+	
+	@RequestMapping(value = "/removebook", method = RequestMethod.POST)
+	public String processForm(Book rmbook, BindingResult result,
+			Map model) {
+
+		
+		if (result.hasErrors()) {
+			return "removebook";
+		}
+		
+		boolean bookExists = this.bookService.checkBook(rmbook.getId());
+		System.out.println(bookExists);
+		
+		if (bookExists)
+		{
+			System.out.println("BOOK EXISTS");
+			model.put("rmbook", rmbook);
+			System.out.println(rmbook.getId());
+			booknumber=rmbook.getId();
+			
+			//return "confirmremove";
+			return "redirect:/confirm";
+			
+		}
+		
+		else
+		{
+			System.out.println("BOOK IS NOT AVAILABLE");
+			model.put("rmbook", rmbook);
+			System.out.println(rmbook.getId());
+			return "removebook";
+		}
 		
 	}
 	
-	@RequestMapping("/remove/{id}")
-    public String removeBook(@PathVariable("id") int id){
+	@RequestMapping("/yesremove")
+    public String removeYesBook(){
 		
-        this.bookService.removeBook(id);
-        return "redirect:/books";
-    }*/
+		System.out.println("InsideYesRemove");
+        //this.bookService.removeBook(id);
+		System.out.println(booknumber);
+		this.bookService.removeBook(booknumber);
+        return "staffpage";
+    }
+	
+	
+	@RequestMapping("/noremove")
+    public String removeNoBook(){
+		System.out.println("InsideNORemove");
+        //this.bookService.removeBook(id);
+        return "staffpage";
+    }
+	
+	@RequestMapping("/staffhome")
+    public String showStaffHome(){
+		
+		System.out.println("Inside Staff Home ");
+        
+        return "staffpage";
+    }
+	
+	@RequestMapping("/confirm")
+    public String showConfirmPage(Model model){
+		
+		System.out.println("Inside confirm page ");
+        
+		Book book = this.bookService.getBookById(booknumber);
+		System.out.println(book.getBookName());
+		System.out.println(book.getBookAuthor());
+		System.out.println(book.getBookGenre());
+		System.out.println(book.getBookISBN());
+		
+		model.addAttribute("bookName", book.getBookName());
+		model.addAttribute("bookAuthor", book.getBookAuthor() );
+		model.addAttribute("bookGenre", book.getBookGenre() );
+		model.addAttribute("bookISBN", book.getBookISBN() );
+		
+        return "confirmremove";
+    }
+	
+
+	
+	
  
-    /*@RequestMapping("/edit/{id}")
-    public String editBook(@PathVariable("id") int id, Model model){
-        model.addAttribute("book", this.bookService.getBookById(id));
-        model.addAttribute("listBooks", this.bookService.listBooks());
-        return "book";
-    }*/
-	
-	@RequestMapping("/view/{id}")
-    public String viewBook(@PathVariable("id") int id, Model model){
-        model.addAttribute("book", this.bookService.getBookById(id));
-        return "BookDescription";
-    }
-	
-	@RequestMapping("/borrow/{id}")
-    public String borrowBook(@PathVariable("id") int id, Model model, @ModelAttribute("search") Search search){
-		Book b = this.bookService.getBookById(id);
-		b.setBookStatus(Status.Borrowed);
-		this.bookService.updateBook(b);
-		model.addAttribute("book", b);
-		model.addAttribute("search", search);
-	    return "bookSearch";
-	    //return "redirect:/view/"+id;
-    }
-	
-	@RequestMapping("/return/{id}")
-    public String returnBook(@PathVariable("id") int id, Model model, HttpServletRequest request){
-		Book b = this.bookService.getBookById(id);
-		b.setBookStatus(Status.Available);
-		this.bookService.updateBook(b);
-		model.addAttribute("book", b);
-		//return "redirect:/books";
-		String referer = request.getHeader("Referer");
-	    return "redirect:"+ referer;
-    }
-	
 }
