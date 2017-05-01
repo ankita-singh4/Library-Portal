@@ -20,7 +20,7 @@
                     <h3>Welcome! </h3>
                 </td>
                 
-                <td><h3>${loginForm.userName}</h3></td>
+                <td><h3>${user.userName}</h3></td>
             </tr>
             
         </table>

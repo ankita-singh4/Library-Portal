@@ -13,9 +13,9 @@
 	</style>
 </head>
 <body>
-<h1>
-	Add a Book
-</h1>
+<h2>
+	Welcome, ${user.userName}.
+</h2>
 
 <c:url var="addAction" value="/book/search" ></c:url>
 
