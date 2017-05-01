@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.library.spring.model.Book;
-import com.library.spring.model.Search;
-import com.library.spring.model.Status;
+import com.library.spring.model.*;
 import com.library.spring.service.LibraryService;
 import com.library.spring.service.SearchBooks;
 
@@ -36,8 +34,10 @@ public class LibraryController {
 	}
 	
 	@RequestMapping(value = "/books")
-	public String custDash(Model model) {
+	public String custDash(@ModelAttribute("user") Users user, Model model) {
+		//System.out.println(user.getUserName());
 		model.addAttribute("listBooks", this.libraryService.listBooks());
+		model.addAttribute("user", user);
 		//model.addAttribute("listBooks");
 		return "CustomerDash";
 	}
