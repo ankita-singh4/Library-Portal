@@ -93,6 +93,10 @@ public class Users{
 	}
 
 
+	public String redirect()
+	{
+		return "redirect:/books";
+	}
 	
 
 	
