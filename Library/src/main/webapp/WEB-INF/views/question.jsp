@@ -36,31 +36,21 @@
 	</c:if>
 	<tr>
 		<td>
-			<form:label path="name">
-				<spring:message text="Name"/>
+			<form:label path="question">
+				<spring:message text="Question"/>
 			</form:label>
 		</td>
 		<td>
-			<form:input path="name" />
+			<form:input path="question" />
 		</td> 
 	</tr>
-	<tr>
-		<td>
-			<form:label path="country">
-				<spring:message text="Country"/>
-			</form:label>
-		</td>
-		<td>
-			<form:input path="country" />
-		</td>
-	</tr>
-	<tr>
+		<tr>
 		<td colspan="2">
-			<c:if test="${!empty person.name}">
+			<c:if test="${!empty question.id}">
 				<input type="submit"
 					value="<spring:message text="Edit Person"/>" />
 			</c:if>
-			<c:if test="${empty person.name}">
+			<c:if test="${empty question.id}">
 				<input type="submit"
 					value="<spring:message text="Add Person"/>" />
 			</c:if>
@@ -70,21 +60,20 @@
 </form:form>
 <br>
 <h3>Persons List</h3>
-<c:if test="${!empty listPersons}">
+<c:if test="${!empty listQuestions}">
 	<table class="tg">
 	<tr>
 		<th width="80">Question Id</th>
-		<th width="120">Question</th>
+		<th width="160">Question</th>
 		<th width="60">Answer</th>
 		<th width="60">Delete</th>
 	</tr>
-	<c:forEach items="${listPersons}" var="person">
+	<c:forEach items="${listQuestions}" var="question">
 		<tr>
-			<td>${person.id}</td>
-			<td>${person.name}</td>
-			<td>${person.country}</td>
-			<td><a href="<c:url value='/edit/${person.id}' />" >Edit</a></td>
-			<td><a href="<c:url value='/remove/${person.id}' />" >Delete</a></td>
+			<td>${question.id}</td>
+			<td>${question.name}</td>
+			<td><a href="<c:url value='/edit/${question.id}' />" >Edit</a></td>
+			<td><a href="<c:url value='/delete/${question.id}' />" >Delete</a></td>
 		</tr>
 	</c:forEach>
 	</table>
