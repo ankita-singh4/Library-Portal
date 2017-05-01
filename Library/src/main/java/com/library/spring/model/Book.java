@@ -9,9 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.library.spring.model.Status;
 
+@DynamicInsert
 @Entity
 @Table(name="BOOK")
 public class Book {
@@ -29,7 +31,7 @@ public class Book {
 	@Column(name="bookAuthor")
 	private String bookAuthor;
 	
-	@Column(name="bookStatus")
+	@Column(name="bookStatus", nullable = false, columnDefinition = "enum('Available','Borrowed') default 'Available'")
 	@Enumerated(EnumType.STRING)
 	private Status bookStatus;
 	
