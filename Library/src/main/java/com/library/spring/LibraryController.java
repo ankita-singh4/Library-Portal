@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.library.spring.model.*;
 import com.library.spring.service.LibraryService;
@@ -20,6 +21,8 @@ public class LibraryController {
 	
 	private LibraryService libraryService;
 	private SearchBooks searchBooks;
+	private Users user;
+	private Search search;
 	
 	@Autowired(required=true)
 	@Qualifier(value="libraryService")
@@ -36,8 +39,13 @@ public class LibraryController {
 	@RequestMapping(value = "/books")
 	public String custDash(@ModelAttribute("user") Users user, Model model) {
 		//System.out.println(user.getUserName());
-		model.addAttribute("listBooks", this.libraryService.listBooks());
+		if(user.getUserId()==null)
+			user = this.user;
+		else
+			this.user = new Customer(user);
+		model.addAttribute("listBooks", this.libraryService.listBooks(user));
 		model.addAttribute("user", user);
+		//this.user = new Customer(user);
 		//model.addAttribute("listBooks");
 		return "CustomerDash";
 	}
@@ -45,9 +53,10 @@ public class LibraryController {
 	@RequestMapping(value = "/book/search/results")
 	public String searchBooks(@ModelAttribute("search") Search search, Model model) {
 		model.addAttribute("book", new Book());
-		
-		model.addAttribute("listBooks", this.searchBooks.search(search.getType(), search.getKey()));
 		model.addAttribute("search", search);
+		model.addAttribute("user", user);
+		this.search=search;
+		model.addAttribute("listBooks", this.searchBooks.search(search.getType(), search.getKey()));
 		//model.addAttribute("listBooks");
 		return "book";
 	}
@@ -55,66 +64,64 @@ public class LibraryController {
 	@RequestMapping(value = "/book/search")
 	public String listBooks(Model model) {
 		model.addAttribute("search", new Search());
+		model.addAttribute("user", user);
 		//model.addAttribute("listBooks");
 		return "bookSearch";
 	}
 	
-	/*//For add and update book both
-	@RequestMapping(value= "/book/add", method = RequestMethod.POST)
-	public String addBook(@ModelAttribute("book") Book b){
-		
-		if(b.getId() == 0){
-			//new book, add it
-			this.bookService.addBook(b);
-		}else{
-			//existing book, call update
-			this.bookService.updateBook(b);
-		}
-		
-		return "redirect:/books";
-		
-	}
 	
-	@RequestMapping("/remove/{id}")
-    public String removeBook(@PathVariable("id") int id){
-		
-        this.bookService.removeBook(id);
-        return "redirect:/books";
-    }*/
- 
-    /*@RequestMapping("/edit/{id}")
-    public String editBook(@PathVariable("id") int id, Model model){
-        model.addAttribute("book", this.bookService.getBookById(id));
-        model.addAttribute("listBooks", this.bookService.listBooks());
-        return "book";
-    }*/
 	
-	@RequestMapping("/view/{id}")
-    public String viewBook(@PathVariable("id") int id, Model model){
+	@RequestMapping("/view/{bookId}")
+    public String viewBook(@PathVariable("bookId") int id, Model model){
         model.addAttribute("book", this.libraryService.getBookById(id));
+        model.addAttribute("search", search);
+        model.addAttribute("user", user);
         return "BookDescription";
     }
 	
-	@RequestMapping("/borrow/{id}")
-    public String borrowBook(@PathVariable("id") int id, Model model, @ModelAttribute("search") Search search){
+	@RequestMapping("/borrow/{bookId}")
+    public String borrowBook(@PathVariable("bookId") int id, Model model){
+		System.out.println(user.getUserId());
 		Book b = this.libraryService.getBookById(id);
+		this.libraryService.borrowBook(b,user);
 		b.setBookStatus(Status.Borrowed);
 		this.libraryService.updateBook(b);
 		model.addAttribute("book", b);
 		model.addAttribute("search", search);
-	    return "bookSearch";
-	    //return "redirect:/view/"+id;
+		model.addAttribute("user", user);
+	    //return "bookSearch";
+		//return "redirect:/book/search/results";
+	    return "redirect:/view/"+id;
     }
 	
-	@RequestMapping("/return/{id}")
-    public String returnBook(@PathVariable("id") int id, Model model, HttpServletRequest request){
+	@RequestMapping("/return/{bookId}")
+    public String returnBook(@PathVariable("bookId") int id, Model model, HttpServletRequest request){
 		Book b = this.libraryService.getBookById(id);
+		BorrowedBooks bb = this.libraryService.getBorrowedBookById(id);
+		this.libraryService.returnBook(bb);
 		b.setBookStatus(Status.Available);
 		this.libraryService.updateBook(b);
 		model.addAttribute("book", b);
+		model.addAttribute("search", search);
+		model.addAttribute("user", user);
 		//return "redirect:/books";
 		String referer = request.getHeader("Referer");
 	    return "redirect:"+ referer;
+    }
+	
+	@RequestMapping("/extend/{bookId}")
+    public String extendBook(@PathVariable("bookId") int id, Model model){
+		System.out.println(user.getUserId());
+		BorrowedBooks b = this.libraryService.getBorrowedBookById(id);
+		this.libraryService.extendBook(b);
+		//b.setBookStatus(Status.Borrowed);
+		//this.libraryService.updateBook(b);
+		model.addAttribute("book", b);
+		model.addAttribute("search", search);
+		model.addAttribute("user", user);
+	    //return "bookSearch";
+		//return "redirect:/book/search/results";
+	    return "redirect:/view/"+id;
     }
 	
 }

@@ -23,20 +23,8 @@ import com.library.spring.model.*;
 import com.library.spring.service.*;
 
 @Controller
-//@RequestMapping(value = "/login")
 public class UserFactory {
 
-	
-	//@Autowired
-	//public LoginService loginService;
-	
-	/*
-	@Autowired(required=true)
-	@Qualifier(value="loginService")
-	public void setLoginService(LoginService ls){
-		this.loginService = ls;
-	}
-	 */
 
 	public Users createUser(Users u)
 	{
