@@ -11,4 +11,5 @@ public interface BookService {
 	public void removeBook(int id);
 	public boolean checkBook(int id);
 	public Book getBookById(int id);
+	public void updateBookDetails(Book b);
 }

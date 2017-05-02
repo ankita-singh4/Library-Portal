@@ -42,6 +42,12 @@ import com.library.spring.model.Book;
 			public Book getBookById(int id) {
 				return this.bookDAO.getBookById(id);
 			}
+		 
+		 @Override
+		 @Transactional
+		 public void updateBookDetails(Book b) {
+	 		this.bookDAO.updateBookDetails(b);
+	 	 }
 
 	}
 	
