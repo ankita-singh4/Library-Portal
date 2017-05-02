@@ -24,15 +24,11 @@ import javax.persistence.Embedded;
 @Table(name = "users")
 @SuppressWarnings("serial")
 public class Users{
-	//@Id
-	//@GeneratedValue
-	//@Column(name = "id", length = 11 )
-	//private Long id;
 	
 	@Id
-	@Column(name="id")
+	@Column(name="userId")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Long userId;
 	
 	
 	@Column(name = "user_name")
@@ -46,13 +42,13 @@ public class Users{
 
 	private Profile profile;
 	
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	} 
 
 	public String getUserName() {
