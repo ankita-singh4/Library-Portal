@@ -24,13 +24,13 @@
 	<c:if test="${!empty book.bookName}">
 	<tr>
 		<td>
-			<form:label path="id">
+			<form:label path="bookId">
 				<spring:message text="ID"/>
 			</form:label>
 		</td>
 		<td>
-			<form:input path="id" readonly="true" size="8"  disabled="true" />
-			<form:hidden path="id" />
+			<form:input path="bookId" readonly="true" size="8"  disabled="true" />
+			<form:hidden path="bookId" />
 		</td> 
 	</tr>
 	</c:if>

@@ -16,7 +16,7 @@
                 </tr>
                 <tr>
                     <td>Book ID:</td>
-                    <td><form:input path="id" /></td>
+                    <td><form:input path="bookId" /></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center"><input type="submit" value="Remove" /></td>
