@@ -42,8 +42,6 @@
 			<beans:list>
 				<beans:value>com.library.spring.model.Book</beans:value>
 				<beans:value>com.library.spring.model.Users</beans:value>
-				<beans:value>com.library.spring.model.BorrowedBooks</beans:value>
-				<beans:value>com.library.spring.model.Question</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -89,17 +87,17 @@
         <beans:property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
     </beans:bean>
     
+    <beans:bean id="QuestionDAO" class="com.library.spring.dao.QuestionDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
+    </beans:bean>
+    
+    <beans:bean id="questionService" class="com.library.spring.service.QuestionServiceImpl">
+        <beans:property name="QuestionDAO" ref="signupDAO"></beans:property>
+    </beans:bean> 
+    
     <beans:bean id="signupService" class="com.library.spring.service.SignupServiceImpl">
         <beans:property name="signupDAO" ref="signupDAO"></beans:property>
     </beans:bean>
-    
-    <beans:bean id="questionDAO" class="com.library.spring.dao.QuestionDAOImpl">
-         <beans:property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory" />
-     </beans:bean>
-     
-     <beans:bean id="questionService" class="com.library.spring.service.QuestionServiceImpl">
-         <beans:property name="questionDAO" ref="questionDAO"></beans:property>
-     </beans:bean> 
 	
 	<context:component-scan base-package="com.library.spring" />
 	

@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.library.spring.model.Question;
-import com.library.spring.service.QuestionService;
-
 @Controller
 public class QuestionController {
 			
@@ -25,27 +22,20 @@ public class QuestionController {
 		@RequestMapping(value = "/questions", method = RequestMethod.GET)
 		public String listquestions(Model model) {
 			model.addAttribute("question", new Question());
-			model.addAttribute("listQuestions", this.questionService.listQuestions());
-			return "question";
-		}
-		
-		@RequestMapping(value = "/questions", method = RequestMethod.POST)
-		public String askquestions(Model model) {
-			model.addAttribute("question", new Question());
-			model.addAttribute("listQuestions", this.questionService.listQuestions());
+			model.addAttribute("listQuestion", this.questionService.listquestions());
 			return "question";
 		}
 		
 		//adding a question
 		@RequestMapping(value= "/question/add", method = RequestMethod.POST)
-		public String addQuestion(@ModelAttribute("question") Question q){
+		public String addQuestion(@ModelAttribute("question") question q){
 			
 			if(q.getId() == 0){
 				//new question, add it
-				this.questionService.addQuestion(q);
+				this.questionService.addquestion(q);
 			}else{
 				//existing question, call update
-				this.questionService.updateQuestion(q);
+				this.questionService.updatequestion(q);
 			}
 			
 			return "redirect:/questions";
@@ -55,15 +45,17 @@ public class QuestionController {
 		@RequestMapping("/remove/{id}")
 	    public String removequestion(@PathVariable("id") int id){
 			
-	        this.questionService.removeQuestion(id);
+	        this.questionService.removequestion(id);
 	        return "redirect:/questions";
 	    }
 	 
 	    @RequestMapping("/edit/{id}")
 	    public String editquestion(@PathVariable("id") int id, Model model){
-	        model.addAttribute("question", this.questionService.getQuestionById(id));
-	        model.addAttribute("listQuestions", this.questionService.listQuestions());
+	        model.addAttribute("question", this.questionService.getquestionById(id));
+	        model.addAttribute("listquestions", this.questionService.listquestions());
 	        return "question";
 	    }
 		
+	}
+
 }

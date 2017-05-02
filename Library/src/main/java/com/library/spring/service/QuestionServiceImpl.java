@@ -5,9 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.library.spring.dao.QuestionDAO;
-import com.library.spring.model.Question;
-
 
 
 @Service
@@ -15,9 +12,9 @@ public class QuestionServiceImpl implements QuestionService {
 	
 	
 		
-		private QuestionDAO questionDAO;
+		private QuestionDAO QuestionDAO;
 
-		public void setQuestionDAO(QuestionDAO questionDAO) {
+		public void (QuestionDAO questionDAO) {
 			this.questionDAO = questionDAO;
 		}
 
@@ -30,7 +27,7 @@ public class QuestionServiceImpl implements QuestionService {
 		@Override
 		@Transactional
 		public void updateQuestion(Question q) {
-			this.questionDAO.editQuestion(q);
+			this.questionDAO.updateQuestion(q);
 		}
 
 		@Override
@@ -52,3 +49,4 @@ public class QuestionServiceImpl implements QuestionService {
 		}
 
 }
+
