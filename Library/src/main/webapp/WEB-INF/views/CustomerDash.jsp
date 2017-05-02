@@ -29,6 +29,19 @@
 	</tr>
 </table>	
 </form:form>
+
+<c:url var="addAction" value="/questions" ></c:url>
+<form:form action="${addAction}" commandName="question">
+<table>
+	<tr>
+		<td colspan="2">
+				<input type="submit"
+					value="<spring:message text="Questions to Staff"/>" />
+		</td>
+	</tr>
+</table>
+</form:form>	
+
 <br>
 <h3>Books List</h3>
 <c:if test="${!empty listBooks}">
@@ -39,41 +52,21 @@
 		<th width="120">Book Author</th>
 		<th width="120">Book Status</th>
 		<th width="120">Genre</th>
-		<th width="120">Borrow</th>
-		<th width="120">View</th>
+		<th width="120">Return</th>
+		<th width="120">Extend</th>
 	</tr>
 	<c:forEach items="${listBooks}" var="book">
 		<tr>
-			<td>${book.id}</td>
+			<td>${book.bookId}</td>
 			<td>${book.bookName}</td>
 			<td>${book.bookAuthor}</td>
 			<td>${book.bookStatus}</td>
 			<td>${book.bookGenre}</td>
-			<c:choose>
-				<c:when test="${book.bookStatus eq 'Available'}">
-					<td><a href="<c:url value='/borrow/${book.id}' />" >Borrow</a></td>
-				</c:when>
-				<c:otherwise>
-					<td>Checked Out</td>
-				</c:otherwise>
-			</c:choose>
-			<td><a href="<c:url value='/view/${book.id}' />" >View</a></td>
+			<td><a href="<c:url value='/return/${book.bookId}' />" >Return</a></td>
+			<td><a href="<c:url value='/extend/${book.bookId}' />" >Extend</a></td>
 		</tr>
 	</c:forEach>
 	</table>
 </c:if>
-
-
-<c:url var="addAction" value="/book/search" ></c:url>
-
-<form:form action="${addAction}" commandName="Answer Question">
-<table>
-	<tr>
-		<td colspan="2">
-				<input type="submit"
-					value="<spring:message text="Question"/>" />
-		</td>
-	</tr>
-</table>
 </body>
 </html>

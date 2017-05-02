@@ -19,6 +19,8 @@
 
 <c:url var="addAction" value="/book/add" ></c:url>
 
+<p align=right><a href="<c:url value='/books' />" >Home</a></p>
+
 <br>
 <h3>Book Description</h3>
 <h4>${book.bookName}</h4>
@@ -27,10 +29,10 @@
 <br>
 <c:choose>
 <c:when test="${book.bookStatus eq 'Available'}">
-	<a href="<c:url value='/borrow/${book.id}' />" >Borrow</a>
+	<a href="<c:url value='/borrow/${book.bookId}' />" >Borrow</a>
 </c:when>
 <c:otherwise>
-	<a href="<c:url value='/return/${book.id}' />" >Return</a>
+	<a href="<c:url value='/return/${book.bookId}' />" >Return</a>
 </c:otherwise>
 </c:choose>
 

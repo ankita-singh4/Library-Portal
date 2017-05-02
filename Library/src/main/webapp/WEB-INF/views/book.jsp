@@ -17,7 +17,7 @@
 	Add a Book
 </h1>
 
-<c:url var="addAction" value="/books" ></c:url>
+<c:url var="addAction" value="/book/search" ></c:url>
 
 <form:form action="${addAction}" commandName="book">
 <table>
@@ -44,20 +44,20 @@
 	</tr>
 	<c:forEach items="${listBooks}" var="book">
 		<tr>
-			<td>${book.id}</td>
+			<td>${book.bookId}</td>
 			<td>${book.bookName}</td>
 			<td>${book.bookAuthor}</td>
 			<td>${book.bookStatus}</td>
 			<td>${book.bookGenre}</td>
 			<c:choose>
 				<c:when test="${book.bookStatus eq 'Available'}">
-					<td><a href="<c:url value='/borrow/${book.id}' />" >Borrow</a></td>
+					<td><a href="<c:url value='/borrow/${book.bookId}' />" >Borrow</a></td>
 				</c:when>
 				<c:otherwise>
 					<td>Checked Out</td>
 				</c:otherwise>
 			</c:choose>
-			<td><a href="<c:url value='/view/${book.id}' />" >View</a></td>
+			<td><a href="<c:url value='/view/${book.bookId}' />" >View</a></td>
 		</tr>
 	</c:forEach>
 	</table>
