@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -38,14 +39,6 @@ private BookService bookService;
 		return "addbook";
 	}
 	
-	/*
-	@RequestMapping(value = "/removebook", method = RequestMethod.GET)
-	public String listPersonsr(Model model) {
-		model.addAttribute("rmbook", new Book());
-		
-		return "removebook";
-	}
-	*/
 	@RequestMapping(value = "/removebook", method = RequestMethod.GET)
 	public String showForm(Map model) {
 		Book rmbook = new Book();
@@ -53,21 +46,8 @@ private BookService bookService;
 		return "removebook";
 	}
 	
-	/*
-	
-	public String addPerson(@ModelAttribute("person") @Valid Person p,BindingResult result, Model model){
-		
-		
-		if (result.hasErrors())
-		{
-			System.out.println("Validation Error");
-			return "person";
-		}
-	*/
-	
 	
 	int booknumber=0;
-	//For add and update person both
 	@RequestMapping(value= "/addbook/add", method = RequestMethod.POST)
 	public String addBook(@ModelAttribute("book") @Valid Book b,BindingResult result, Model model){
 	//public String addBook(@ModelAttribute("book") Book b,BindingResult result, Model model){
@@ -79,15 +59,12 @@ private BookService bookService;
 		
 		else{
 			
-			if(b.getId() == 0){
+			if(b.getBookId() == 0){
 				System.out.println(b.getBookName());
-			//new person, add it
 			this.bookService.addBook(b);
 			}
 		
 		else{
-			//existing person, call update
-			//this.personService.updatePerson(p);
 			System.out.println("Inside Else");
 			}
 		
@@ -95,6 +72,13 @@ private BookService bookService;
 		}
 	}
 	
+	@RequestMapping(value = "/updatebook", method = RequestMethod.GET)
+	public String showUpdateForm(Map model) {
+		Book rmbook = new Book();
+		model.put("rmbook", rmbook);
+		
+		return "updatebook";
+	}
 	
 	@RequestMapping(value = "/removebook", method = RequestMethod.POST)
 	public String processForm(Book rmbook, BindingResult result,
@@ -105,15 +89,15 @@ private BookService bookService;
 			return "removebook";
 		}
 		
-		boolean bookExists = this.bookService.checkBook(rmbook.getId());
+		boolean bookExists = this.bookService.checkBook(rmbook.getBookId());
 		System.out.println(bookExists);
 		
 		if (bookExists)
 		{
 			System.out.println("BOOK EXISTS");
 			model.put("rmbook", rmbook);
-			System.out.println(rmbook.getId());
-			booknumber=rmbook.getId();
+			System.out.println(rmbook.getBookId());
+			booknumber=rmbook.getBookId();
 			
 			//return "confirmremove";
 			return "redirect:/confirm";
@@ -124,7 +108,7 @@ private BookService bookService;
 		{
 			System.out.println("BOOK IS NOT AVAILABLE");
 			model.put("rmbook", rmbook);
-			System.out.println(rmbook.getId());
+			System.out.println(rmbook.getBookId());
 			return "removebook";
 		}
 		
@@ -149,9 +133,12 @@ private BookService bookService;
     }
 	
 	@RequestMapping("/staffhome")
-    public String showStaffHome(){
+    public String showStaffHome(Model model, RedirectAttributes redirectAttributes){
 		
 		System.out.println("Inside Staff Home ");
+		Users user = new Users();
+		user.setUserType("Customer");
+		redirectAttributes.addFlashAttribute("user", user);
         
         return "staffpage";
     }
@@ -175,8 +162,59 @@ private BookService bookService;
         return "confirmremove";
     }
 	
-
+	@RequestMapping(value = "/updatebook", method = RequestMethod.POST)
+	public String processUpdateForm(Book rmbook, BindingResult result,
+			Model model) {
+		
+		model.addAttribute("rmbook", rmbook);
+		/*
+		System.out.println(rmbook.getId());
+		System.out.println(rmbook.getBookName());
+		System.out.println(rmbook.getBookAuthor());
+		System.out.println(rmbook.getBookGenre());
+		System.out.println(rmbook.getBookISBN());
+		
+		//System.out.println("On update page ");
+        */
+		Book oldbook = this.bookService.getBookById(rmbook.getBookId());
+		
+		/*
+		System.out.println(oldbook.getBookName());
+		System.out.println(oldbook.getBookAuthor());
+		System.out.println(oldbook.getBookGenre());
+		System.out.println(oldbook.getBookISBN());
+		*/
+		
+		oldbook.setBookName(rmbook.getBookName());
+		oldbook.setBookAuthor(rmbook.getBookAuthor());
+		oldbook.setBookGenre(rmbook.getBookGenre());
+		oldbook.setBookISBN(rmbook.getBookISBN());
+		
+		this.bookService.updateBookDetails(oldbook);
+		
+		
+		return "redirect:/staffhome";
+	}
 	
+	@RequestMapping("/adminhome")
+    public String showAdminHome(Model model, RedirectAttributes redirectAttributes){
+		
+		System.out.println("Inside Staff Home");
+		Users user = new Users();
+		user.setUserType("Staff");
+		redirectAttributes.addFlashAttribute("user", user);
+        return "adminpage";
+    }
+	
+	@RequestMapping(value = "/addStaff", method = RequestMethod.GET)
+	public String addCustomer(Map model, RedirectAttributes redirectAttributes) {
+		Users u = new Users();
+		u.setUserType("Staff");
+		redirectAttributes.addFlashAttribute("user", u);
+		//model.put("user", u);
+		
+		return "redirect:/signup";
+	}
 	
  
 }

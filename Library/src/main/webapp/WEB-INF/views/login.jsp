@@ -10,7 +10,7 @@
 </head>
 <body>
     <div align="center">
-        <form:form action="login" method="post" commandName="loginForm">
+        <form:form action="login" method="post" commandName="user">
             <table border="0">
                 <tr>
                     <td colspan="2" align="center"><h2>Welcome to Awesome Library, Please Login</h2></td>
@@ -29,7 +29,7 @@
                 </tr>
                 
                 <tr>
-                    <td colspan="2" align="center"><a href="signup">Don't have an account? Sign Up here</a></td>
+                    <td colspan="2" align="center"><a href="addCustomer">Don't have an account? Sign Up here</a></td>
                     <td></td>
                 </tr>
                 

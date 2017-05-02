@@ -13,24 +13,26 @@
 	</style>
 </head>
 <body>
-<h1>
-	Hello! Signup by providing following details. 
-</h1>
+<div align="center">
+<table>
+<tr>
+                    <td colspan="2" align="center"><h1>Create New Account!</h1></td>
+                </tr>
 
 <c:url var="addAction" value="/signup/add" ></c:url>
 
 <form:form action="${addAction}" commandName="user">
-<table>
+
 	<c:if test="${!empty user.userName}">
 	<tr>
 		<td>
-			<form:label path="id">
+			<form:label path="userId">
 				<spring:message text="ID"/>
 			</form:label>
 		</td>
 		<td>
-			<form:input path="id" readonly="true" size="8"  disabled="true" />
-			<form:hidden path="id" />
+			<form:input path="userId" readonly="true" size="8"  disabled="true" />
+			<form:hidden path="userId" />
 		</td> 
 	</tr>
 	</c:if>
@@ -116,7 +118,7 @@
 			<form:input path="userPassword" />
 		</td>
 	</tr>
-	<tr>
+	<%-- <tr>
 		<td>
 			<form:label path="userType">
 				<spring:message text="User Type"/>
@@ -125,7 +127,7 @@
 		<td>
 			<form:input path="userType" />
 		</td>
-	</tr>
+	</tr> --%>
 	<tr>
 	<tr>
 	<tr>
@@ -137,5 +139,8 @@
 			</c:if>
 		</td>
 	</tr>
-</table>	
+	
 </form:form>
+</table>
+</div>
+

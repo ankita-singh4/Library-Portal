@@ -22,10 +22,9 @@ import java.util.Map;
 
 import com.library.spring.model.*;
 import com.library.spring.service.*;
-//import com.library.spring.UserFactory;
 
 @Controller
-@RequestMapping(value = "/login")
+//@RequestMapping(value = "/login")
 public class LoginController {
 
 	
@@ -39,14 +38,27 @@ public class LoginController {
 		this.loginService = ls;
 	}
 	 */
-	@RequestMapping(method = RequestMethod.GET)
-	public String showForm(Map model) {
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String showForm(Map model, RedirectAttributes redirectAttributes) {
 		Users loginForm = new Users();
-		model.put("loginForm", loginForm);
+		loginForm.setUserType("Customer");
+		redirectAttributes.addFlashAttribute("user", loginForm);
+		model.put("user", loginForm);
+		
 		return "login";
 	}
+	
+	@RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
+	public String addCustomer(Map model, RedirectAttributes redirectAttributes) {
+		Users loginForm = new Users();
+		loginForm.setUserType("Customer");
+		redirectAttributes.addFlashAttribute("user", loginForm);
+		//model.put("user", loginForm);
+		
+		return "redirect:/signup";
+	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String processForm(@ModelAttribute("loginForm") Users loginForm, BindingResult result,
 			Map model, RedirectAttributes redirectAttributes) {
 
@@ -68,12 +80,9 @@ public class LoginController {
 		else{
 			UserFactory uf = new UserFactory();
 			Users user = uf.createUser(u);
-			//System.out.println(loginForm.getUserName());
 			redirectAttributes.addFlashAttribute("user", user);
 			model.put("loginForm", loginForm);
-			//System.out.println("loginSuccess");
-			//System.out.println(loginForm.redirect());
-			return loginForm.redirect();
+			return user.redirect();
 		}
 
 	}

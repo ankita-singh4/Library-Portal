@@ -19,9 +19,9 @@ import com.library.spring.model.Status;
 public class Book {
 
 	@Id
-	@Column(name="id")
+	@Column(name="bookId")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int bookId;
 	
 	@NotEmpty
 	@Column(name="bookName")
@@ -41,12 +41,12 @@ public class Book {
 	@Column(name="bookISBN")
 	private String bookISBN;
 
-	public int getId() {
-		return id;
+	public int getBookId() {
+		return bookId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
 	}
 
 	public String getBookName() {
@@ -93,6 +93,6 @@ public class Book {
 	
 	@Override
 	public String toString(){
-		return "id="+id+", title="+bookName+", author="+bookAuthor+", genre="+bookGenre+", status="+bookStatus+", ISBN="+bookISBN;
+		return "id="+bookId+", title="+bookName+", author="+bookAuthor+", genre="+bookGenre+", status="+bookStatus+", ISBN="+bookISBN;
 	}
 }

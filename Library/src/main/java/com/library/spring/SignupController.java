@@ -22,6 +22,7 @@ import com.library.spring.service.SignupService;
 public class SignupController {
 	
 private SignupService signupService;
+private Users user;
 	
 	@Autowired(required=true)
 	@Qualifier(value="signupService")
@@ -30,9 +31,11 @@ private SignupService signupService;
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String showSignup(Model model) {
-		model.addAttribute("user", new Users());
-		
+	public String showSignup(@ModelAttribute("user") Users user, Model model) {
+		System.out.println(user.getUserType());
+		UserFactory uf = new UserFactory();
+		this.user = uf.createUser(user);
+		model.addAttribute("user", user);		
 		return "signup";
 	}
 	
@@ -43,6 +46,7 @@ private SignupService signupService;
 		
 		System.out.println("Inside Add User");
 		
+			u.setUserType(user.getUserType());
 		
 			//System.out.println("before addUser");
 			//new person, add it
