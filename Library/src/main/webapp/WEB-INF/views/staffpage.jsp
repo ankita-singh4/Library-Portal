@@ -18,6 +18,10 @@
 	
 	<tr>
 		<td><a href="removebook">REMOVE BOOK</a></td>
+		
+	</tr>
+	<tr>
+		<td><a href="Answer Question">ANSWER QEUSTION</a></td>
 	</tr>
 </table>
 
