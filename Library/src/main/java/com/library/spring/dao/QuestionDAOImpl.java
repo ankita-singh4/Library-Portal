@@ -1,7 +1,5 @@
 package com.library.spring.dao;
 
-package com.journaldev.spring.dao;
-
 import java.util.List;
 
 import org.hibernate.Session;
@@ -9,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
+import com.library.spring.model.Question;
 
 
 
@@ -42,18 +42,18 @@ public class QuestionDAOImpl implements QuestionDAO {
 	public List<Question> listQuestions() {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Question> QuestionList = session.createQuery("from Question").list();
-		for(Question q : questionsList){
+		for(Question q : QuestionList){
 			logger.info("Question List::"+q);
 		}
-		return questionsList;
+		return QuestionList;
 	}
 
 	@Override
-	public Person getQuestionById(int id) {
+	public Question getQuestionById(int id) {
 		Session session = this.sessionFactory.getCurrentSession();		
 		Question q = (Question) session.load(Question.class, new Integer(id));
 		logger.info("Question loaded successfully="+q);
-		return p;
+		return q;
 	}
 
 	@Override
@@ -65,7 +65,5 @@ public class QuestionDAOImpl implements QuestionDAO {
 		}
 		logger.info("Question deleted successfully="+q);
 	}
-
-}
 
 }
