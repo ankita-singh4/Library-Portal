@@ -48,7 +48,7 @@
 		<td colspan="2">
 			<c:if test="${question.id ne 0}">
 				<input type="submit"
-					value="<spring:message text="Edit Question"/>" />
+					value="<spring:message text="Answer Question"/>" />
 			</c:if>
 			<c:if test="${question.id eq 0}">
 				<input type="submit"
@@ -72,7 +72,7 @@
 		<tr>
 			<td>${question.id}</td>
 			<td>${question.question}</td>
-			<td><a href="<c:url value='/edit/${question.id}' />" >Edit</a></td>
+			<td><a href="<c:url value='/edit/${question.id}' />" >Answer</a></td>
 			<td><a href="<c:url value='/remove/${question.id}' />" >Delete</a></td>
 		</tr>
 	</c:forEach>
