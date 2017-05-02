@@ -47,7 +47,7 @@ public class BookDAOImpl implements BookDAO {
 		boolean bookFound = false;
 		//Query using Hibernate Query Language
 		//String SQL_QUERY =" from Users as o where o.userName=? and o.userPassword=?";
-		String SQL_QUERY =" from Book as o where o.id=?";
+		String SQL_QUERY =" from Book as o where o.bookId=?";
 		Query query = session.createQuery(SQL_QUERY);
 		query.setParameter(0,id);
 		//query.setParameter(1,userPassword);
@@ -72,6 +72,13 @@ public class BookDAOImpl implements BookDAO {
         Book b = (Book) session.load(Book.class, new Integer(id));
         logger.info("Book loaded successfully, Book details="+b);
         return b;
+    }
+    
+    @Override
+    public void updateBookDetails(Book b) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.update(b);
+        logger.info("Book updated successfully, Book Details="+b);
     }
 
 }

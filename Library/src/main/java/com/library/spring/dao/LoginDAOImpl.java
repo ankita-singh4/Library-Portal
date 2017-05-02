@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Query;
 import java.util.List;
 
-//@Repository("loginDAO")
+
 @Repository
 public class LoginDAOImpl implements LoginDAO{
      
