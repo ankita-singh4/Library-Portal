@@ -4,6 +4,7 @@ public class Admin extends Users {
 	
 	public Admin(Users u)
 	{
+		this.setUserId(u.getUserId());
 		this.userName = u.getUserName();
 		this.userPassword = u.getUserPassword();
 		this.userType = "Admin";
@@ -17,7 +18,7 @@ public class Admin extends Users {
 	
 	public String redirect()
 	{
-		return "redirect:/staffhome";
+		return "redirect:/adminhome";
 	}
 
 }

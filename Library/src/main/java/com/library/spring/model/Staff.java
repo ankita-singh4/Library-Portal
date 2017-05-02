@@ -4,6 +4,7 @@ public class Staff extends Users {
 	
 	public Staff(Users u)
 	{
+		this.setUserId(u.getUserId());
 		this.userName = u.getUserName();
 		this.userPassword = u.getUserPassword();
 		this.userType = "Staff";
