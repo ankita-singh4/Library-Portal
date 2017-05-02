@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.library.spring.dao.LibraryDAO;
 import com.library.spring.model.Book;
+import com.library.spring.model.BorrowedBooks;
+import com.library.spring.model.Users;
 
 @Service
 public class LibraryServiceImpl implements LibraryService {
@@ -25,14 +27,41 @@ public class LibraryServiceImpl implements LibraryService {
 
 	@Override
 	@Transactional
-	public List<Book> listBooks() {
-		return this.libraryDAO.listBooks();
+	public List<Book> listBooks(Users user) {
+		return this.libraryDAO.listBooks(user);
 	}
 
 	@Override
 	@Transactional
 	public Book getBookById(int id) {
 		return this.libraryDAO.getBookById(id);
+	}
+
+	@Override
+	@Transactional
+	public void borrowBook(Book b, Users user) {
+		this.libraryDAO.borrowBook(b, user);
+		
+	}
+
+	@Override
+	@Transactional
+	public void extendBook(BorrowedBooks b) {
+		this.libraryDAO.extendBook(b);
+		
+	}
+
+	@Override
+	@Transactional
+	public BorrowedBooks getBorrowedBookById(int id) {
+		return this.libraryDAO.getBorrowedBookById(id);
+	}
+
+	@Override
+	@Transactional
+	public void returnBook(BorrowedBooks bb) {
+		this.libraryDAO.returnBook(bb);
+		
 	}
 
 }
