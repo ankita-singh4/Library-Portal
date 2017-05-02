@@ -62,5 +62,18 @@
 	</c:forEach>
 	</table>
 </c:if>
+
+
+<c:url var="addAction" value="/book/search" ></c:url>
+
+<form:form action="${addAction}" commandName="Answer Question">
+<table>
+	<tr>
+		<td colspan="2">
+				<input type="submit"
+					value="<spring:message text="Question"/>" />
+		</td>
+	</tr>
+</table>
 </body>
 </html>
